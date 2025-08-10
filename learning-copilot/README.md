@@ -103,10 +103,17 @@ cp .env.example .env
 Edit `.env` and add your API keys:
 
 ```env
-OPENAI_API_KEY=your-openai-api-key-here
-GITHUB_ACCESS_TOKEN=your-github-token-here  # Optional
-MODEL_NAME=gpt-5  # or gpt-5-mini for faster/cheaper
+# REQUIRED: Get your API key from https://platform.openai.com/api-keys
+OPENAI_API_KEY=sk-...your-actual-api-key-here...
+
+# Optional: For better GitHub rate limits
+GITHUB_ACCESS_TOKEN=ghp-...your-github-token...
+
+# Recommended model (cost-effective)
+MODEL_NAME=gpt-5-mini
 ```
+
+**Important**: Make sure to use your actual OpenAI API key, not the placeholder!
 
 ### 4. Run the application
 

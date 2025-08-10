@@ -21,12 +21,19 @@ st.set_page_config(
 
 @st.cache_resource
 def init_services():
-    db = Database()
-    ai_engine = AIEngine()
-    curriculum_gen = CurriculumGenerator(ai_engine)
-    github_fetcher = GitHubFetcher()
-    file_handler = FileHandler()
-    return db, ai_engine, curriculum_gen, github_fetcher, file_handler
+    try:
+        db = Database()
+        ai_engine = AIEngine()
+        curriculum_gen = CurriculumGenerator(ai_engine)
+        github_fetcher = GitHubFetcher()
+        file_handler = FileHandler()
+        return db, ai_engine, curriculum_gen, github_fetcher, file_handler
+    except ValueError as e:
+        st.error(f"⚠️ Configuration Error: {str(e)}")
+        st.stop()
+    except Exception as e:
+        st.error(f"❌ Initialization Error: {str(e)}")
+        st.stop()
 
 db, ai_engine, curriculum_gen, github_fetcher, file_handler = init_services()
 

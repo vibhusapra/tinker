@@ -9,11 +9,14 @@ load_dotenv()
 class AIEngine:
     def __init__(self, model: str = None, temperature: float = None):
         self.api_key = os.getenv("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("OPENAI_API_KEY not found in environment variables")
+        if not self.api_key or self.api_key == "your-openai-api-key-here":
+            raise ValueError(
+                "Please set your OpenAI API key in the .env file.\n"
+                "Get your API key from: https://platform.openai.com/api-keys"
+            )
         
         self.client = OpenAI(api_key=self.api_key)
-        self.model = model or os.getenv("MODEL_NAME", "gpt-5")
+        self.model = model or os.getenv("MODEL_NAME", "gpt-5-mini")
         self.temperature = temperature or float(os.getenv("TEMPERATURE", "0.7"))
         self.max_tokens = int(os.getenv("MAX_TOKENS", "4000"))
     
@@ -31,10 +34,16 @@ class AIEngine:
                 "model": self.model,
                 "messages": messages,
                 "temperature": temperature or self.temperature,
-                "max_tokens": max_tokens or self.max_tokens,
             }
             
-            if self.model == "gpt-5":
+            # Use correct token parameter based on model
+            if self.model.startswith("gpt-5") or self.model.startswith("o1"):
+                params["max_completion_tokens"] = max_tokens or self.max_tokens
+            else:
+                params["max_tokens"] = max_tokens or self.max_tokens
+            
+            # Add GPT-5 specific parameters
+            if self.model.startswith("gpt-5"):
                 params["verbosity"] = verbosity
                 params["reasoning_effort"] = reasoning_effort
             
@@ -45,6 +54,18 @@ class AIEngine:
             return response.choices[0].message.content
         
         except Exception as e:
+            # Retry with alternative parameter if it's a parameter error
+            if "max_tokens" in str(e) and "max_completion_tokens" in str(e):
+                print(f"Retrying with max_completion_tokens parameter...")
+                if "max_tokens" in params:
+                    params["max_completion_tokens"] = params.pop("max_tokens")
+                    try:
+                        response = self.client.chat.completions.create(**params)
+                        return response.choices[0].message.content
+                    except Exception as retry_error:
+                        print(f"Retry failed: {str(retry_error)}")
+                        raise retry_error
+            
             print(f"Error generating completion: {str(e)}")
             raise
     
