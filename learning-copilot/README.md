@@ -1,34 +1,41 @@
-# 🚀 Learning Copilot - Learn by Doing
+# 🔨 Karpathy Learning Copilot - Build to Understand
 
-A Karpathy-inspired learning platform that emphasizes **project-based learning** and **learning by building**. Create personalized curricula from any topic, syllabus, or GitHub repository, and learn through hands-on coding projects.
+A learning platform that embodies Andrej Karpathy's philosophy: **build small, real things from scratch**. Every concept is learned through implementation, every lesson produces runnable code, and complexity is earned through understanding.
 
-> *"What I cannot create, I do not understand"* - Richard Feynman
+> *"What I cannot create, I do not understand"* - Richard Feynman  
+> *"Build small, real things. Clarity beats cleverness."* - The Karpathy Way
 
-## ✨ Features
+## ✨ The Karpathy Way
 
-- **🎯 Multiple Input Methods**
-  - Manual topic entry
-  - Upload course syllabus (PDF, TXT, MD)
-  - Import from GitHub repositories
-  - Quick-start templates
+### Core Principles We Follow
 
-- **🏗️ Project-Based Learning**
-  - Every concept taught through building
-  - Progressive difficulty projects
-  - Real-world applications
-  - Debugging challenges
+- **🔨 Do the Thing** - Implement tiny, working versions before reading/watching more
+- **🏗️ From Scratch First** - Write minimal reference code you can step through line-by-line
+- **🔄 End-to-End Mindset** - Own the whole pipeline (data → model → train → eval → deploy)
+- **🎯 Overfit Then Generalize** - Make it work on a toy problem, then scale
+- **📊 Instrument Everything** - Plot losses, grads, activations; let the graphs teach you
+- **🔍 Data ≫ Lore** - Inspect samples, labels, splits; catch leaks and shortcuts early
+- **✨ Simple > Fancy** - Fewer layers, fewer knobs; complexity is earned
+- **🧪 Reproduce & Ablate** - Rebuild results, then remove pieces to see what matters
+- **⚡ Tight Loops** - Short experiments, fast iteration, frequent checkpoints
+- **📖 Readable Code** - Small files, clear names, zero magic
+- **🎁 Concrete Artifacts** - Every lesson ends with something you can run
+- **👨‍🏫 Teach to Learn** - Write notes, explain decisions, log what surprised you
 
-- **🤖 AI-Powered Guidance**
-  - GPT-5 powered learning assistant
-  - Personalized curriculum generation
-  - Code review and feedback
-  - Adaptive learning paths
+### Features
 
-- **📊 Progress Tracking**
-  - Module completion tracking
-  - Project submissions
-  - Learning analytics
-  - Persistent chat history
+- **🧪 Experiment Journal** - Track hypotheses, results, and insights for every build
+- **🏆 Tiny Wins Tracker** - Celebrate small achievements: first run, bug fixed, plot made
+- **🎯 Learning Modes**
+  - Socratic: Questions only, no direct answers
+  - From Scratch: Build everything from first principles
+  - Tight Loop: 60-minute focused experiments
+  - Instrument: Measure and visualize everything
+  - Ablation: Remove components to understand importance
+- **📊 Build Pipeline Visualization** - See your progress through the full stack
+- **🐛 Debug Celebration** - Errors are learning opportunities, not failures
+- **⏱️ 60-Minute Timer** - Time-boxed experiments for tight feedback loops
+- **📝 One Variable Tracker** - Change one thing at a time, measure impact
 
 ## 🛠️ Tech Stack
 
