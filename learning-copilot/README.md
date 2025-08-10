@@ -54,7 +54,43 @@ cd learning-copilot
 
 ### 2. Install dependencies
 
+#### Option A: Automated Setup Script (Fastest! 🚀)
+
 ```bash
+# Run the setup script
+./setup.sh
+
+# This will:
+# - Install uv if needed
+# - Create virtual environment
+# - Install all dependencies
+# - Set up .env file
+# - Initialize database
+```
+
+#### Option B: Using uv (Recommended)
+
+```bash
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create virtual environment and install dependencies
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install -e .
+
+# Or if using an existing virtual environment
+uv pip install -r requirements.txt
+```
+
+#### Option C: Using pip (Traditional)
+
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -75,7 +111,15 @@ MODEL_NAME=gpt-5  # or gpt-5-mini for faster/cheaper
 ### 4. Run the application
 
 ```bash
+# Make sure you're in the virtual environment
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Run from the learning-copilot directory
+cd learning-copilot
 streamlit run app.py
+
+# Or use the venv's streamlit directly
+.venv/bin/streamlit run learning-copilot/app.py
 ```
 
 The app will open in your browser at `http://localhost:8501`
@@ -164,6 +208,32 @@ Each module includes:
 - Test cases
 - Debugging exercises
 - Real applications
+
+## 🛠️ Development Setup
+
+### Using uv for Development
+
+```bash
+# Install with dev dependencies
+uv pip install -e ".[dev]"
+
+# Run code formatters
+black .
+ruff check --fix .
+
+# Run type checking
+mypy backend/
+
+# Run tests (when added)
+pytest
+```
+
+### Quick Install Script
+
+```bash
+# One-liner to set up everything with uv
+curl -LsSf https://astral.sh/uv/install.sh | sh && uv venv && source .venv/bin/activate && uv pip install -e . && cp .env.example .env
+```
 
 ## 🤝 Contributing
 

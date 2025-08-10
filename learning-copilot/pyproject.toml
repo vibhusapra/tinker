@@ -1,0 +1,54 @@
+[project]
+name = "learning-copilot"
+version = "1.0.0"
+description = "A Karpathy-inspired learning platform that emphasizes project-based learning"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "streamlit>=1.40.0",
+    "openai>=1.58.1",
+    "python-dotenv>=1.0.1",
+    "sqlalchemy>=2.0.36",
+    "PyGithub>=2.5.0",
+    "PyPDF2>=3.0.1",
+    "pandas>=2.2.3",
+    "numpy>=2.2.1",
+    "requests>=2.32.3",
+    "markdown>=3.7",
+    "beautifulsoup4>=4.12.3",
+    "Pillow>=11.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "black>=24.0.0",
+    "ruff>=0.7.0",
+    "mypy>=1.13.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend", "prompts", "utils"]
+include = [
+    "*.py",
+    "backend/*.py",
+    "prompts/*.py",
+    "utils/*.py",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
