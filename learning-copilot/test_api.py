@@ -35,23 +35,25 @@ def test_api_connection():
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": "Say 'API test successful' in 5 words or less."}
-            ],
-            "temperature": 0.7
+            ]
         }
         
-        # Use correct parameter based on model
-        if model.startswith("gpt-5") or model.startswith("o1"):
-            params["max_completion_tokens"] = 50
-            print("   Using max_completion_tokens parameter")
-        else:
-            params["max_tokens"] = 50
-            print("   Using max_tokens parameter")
-        
-        # Add GPT-5 specific parameters if applicable
+        # Use correct parameters based on model
         if model.startswith("gpt-5"):
+            # GPT-5 models: no temperature, use max_completion_tokens
+            params["max_completion_tokens"] = 50
             params["verbosity"] = "low"
             params["reasoning_effort"] = "low"
-            print("   Added GPT-5 specific parameters")
+            print("   Using GPT-5 parameters (no temperature)")
+        elif model.startswith("o1"):
+            # o1 models: restricted temperature, use max_completion_tokens
+            params["max_completion_tokens"] = 50
+            print("   Using o1 parameters")
+        else:
+            # GPT-4 and earlier: traditional parameters
+            params["temperature"] = 0.7
+            params["max_tokens"] = 50
+            print("   Using traditional parameters")
         
         print("\n🔄 Testing API call...")
         response = client.chat.completions.create(**params)

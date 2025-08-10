@@ -33,19 +33,21 @@ class AIEngine:
             params = {
                 "model": self.model,
                 "messages": messages,
-                "temperature": temperature or self.temperature,
             }
             
-            # Use correct token parameter based on model
-            if self.model.startswith("gpt-5") or self.model.startswith("o1"):
-                params["max_completion_tokens"] = max_tokens or self.max_tokens
-            else:
-                params["max_tokens"] = max_tokens or self.max_tokens
-            
-            # Add GPT-5 specific parameters
+            # GPT-5 models only support default temperature (1.0)
             if self.model.startswith("gpt-5"):
+                # Don't set temperature for GPT-5 models (uses default of 1.0)
+                params["max_completion_tokens"] = max_tokens or self.max_tokens
                 params["verbosity"] = verbosity
                 params["reasoning_effort"] = reasoning_effort
+            elif self.model.startswith("o1"):
+                # o1 models also have restrictions
+                params["max_completion_tokens"] = max_tokens or self.max_tokens
+            else:
+                # GPT-4 and earlier models
+                params["temperature"] = temperature or self.temperature
+                params["max_tokens"] = max_tokens or self.max_tokens
             
             if response_format:
                 params["response_format"] = response_format
@@ -137,7 +139,6 @@ Return as JSON with this structure:
         
         response = self.generate_completion(
             messages,
-            temperature=0.7,
             response_format={"type": "json_object"},
             verbosity="high",
             reasoning_effort="high"
@@ -202,7 +203,6 @@ Return as JSON with structure:
         
         response = self.generate_completion(
             messages,
-            temperature=0.8,
             response_format={"type": "json_object"},
             verbosity="high"
         )
@@ -239,7 +239,6 @@ Return as JSON with structure:
         
         return self.generate_completion(
             messages,
-            temperature=0.7,
             verbosity="medium",
             reasoning_effort="medium"
         )
@@ -283,7 +282,6 @@ Return as JSON:
         
         response = self.generate_completion(
             messages,
-            temperature=0.6,
             response_format={"type": "json_object"}
         )
         
