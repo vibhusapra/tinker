@@ -23,8 +23,8 @@ class TinyWinsTracker:
     }
     
     def __init__(self):
-        if 'tiny_wins' not in st.session_state:
-            st.session_state.tiny_wins = []
+        if 'tiny_wins_list' not in st.session_state:
+            st.session_state.tiny_wins_list = []
         
         if 'win_streak' not in st.session_state:
             st.session_state.win_streak = 0
@@ -45,12 +45,12 @@ class TinyWinsTracker:
                 'timestamp': datetime.now().isoformat(),
             }
             
-            st.session_state.tiny_wins.append(win)
+            st.session_state.tiny_wins_list.append(win)
             st.session_state.daily_wins += 1
             
             # Update streak
-            if len(st.session_state.tiny_wins) > 1:
-                last_win = datetime.fromisoformat(st.session_state.tiny_wins[-2]['timestamp'])
+            if len(st.session_state.tiny_wins_list) > 1:
+                last_win = datetime.fromisoformat(st.session_state.tiny_wins_list[-2]['timestamp'])
                 current = datetime.now()
                 if (current - last_win).total_seconds() < 3600:  # Within an hour
                     st.session_state.win_streak += 1
@@ -64,7 +64,9 @@ class TinyWinsTracker:
     
     def get_recent_wins(self, limit: int = 10) -> List[Dict]:
         """Get recent wins"""
-        return st.session_state.tiny_wins[-limit:]
+        if 'tiny_wins_list' not in st.session_state:
+            return []
+        return st.session_state.tiny_wins_list[-limit:]
     
     def display_wins_banner(self):
         """Display the tiny wins banner"""
@@ -76,7 +78,7 @@ class TinyWinsTracker:
             st.markdown(
                 f"""
                 <div class="metric-card">
-                    <div class="metric-value">{len(st.session_state.tiny_wins)}</div>
+                    <div class="metric-value">{len(st.session_state.tiny_wins_list)}</div>
                     <div class="metric-label">Total Wins</div>
                 </div>
                 """,
@@ -159,7 +161,7 @@ class TinyWinsTracker:
     
     def get_motivational_message(self) -> str:
         """Get a motivational message based on progress"""
-        total_wins = len(st.session_state.tiny_wins)
+        total_wins = len(st.session_state.tiny_wins_list)
         
         if total_wins == 0:
             return "🚀 Ready to start building? Every expert was once a beginner!"
@@ -181,7 +183,7 @@ class TinyWinsTracker:
         """Export wins as formatted text"""
         output = "🏆 TINY WINS LOG\n" + "=" * 40 + "\n\n"
         
-        for win in st.session_state.tiny_wins:
+        for win in st.session_state.tiny_wins_list:
             timestamp = datetime.fromisoformat(win['timestamp'])
             output += f"{win['icon']} {win['title']}\n"
             output += f"   {win['description']}\n"
